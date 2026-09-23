@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+
+# Large source dataset
+*.zst
+
+# Secrets and environments
+.env
+.venv/
+venv/
+.streamlit/secrets.toml

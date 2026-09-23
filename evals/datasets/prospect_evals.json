@@ -1,0 +1,42 @@
+[
+  {
+    "id": "eval_001",
+    "input": {
+      "organization": "Example Corp",
+      "domains": ["example.com"],
+      "hostnames": ["vpn.example.com"],
+      "asn": "AS12345",
+      "module": "example-module"
+    },
+    "expected": {
+      "must_mention": [
+        "organization",
+        "domain",
+        "hostname",
+        "technology"
+      ],
+      "must_not_claim": [
+        "vulnerability",
+        "breach",
+        "confirmed security need"
+      ]
+    }
+  },
+  {
+    "id": "eval_002",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null
+    },
+    "expected": {
+      "must_mention": [],
+      "must_not_claim": [
+        "company identity",
+        "security need"
+      ]
+    }
+  }
+]

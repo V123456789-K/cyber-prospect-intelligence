@@ -1,59 +1,17 @@
-﻿# Architecture
+# Architecture
 
-## Flow
+Dataset (.jsonl / .zst) -> Python normalization -> observable evidence + deterministic signals -> rule-based research-priority score -> prospect list / investigation -> evidence ledger -> optional LLM -> grounded summary.
 
-Raw .zst dataset
-        |
-        v
-Streaming extraction
-        |
-        v
-JSONL working dataset
-        |
-        v
-Python normalization
-        |
-        v
-Deterministic signal engine
-        |
-        v
-Prospect scoring
-        |
-        +------------------+
-        |                  |
-        v                  v
-   Streamlit UI       LLM summary
-        |                  |
-        +--------+---------+
-                 |
-                 v
-             Sales user
+## Rule vs LLM
+Python owns parsing, normalization, signal extraction, scoring, filtering, ranking and evaluation. These operations are deterministic and auditable.
 
-## Rule vs LLM Split
+The LLM owns only natural-language synthesis of an evidence ledger. It does not calculate the authoritative score, add external facts, or establish vulnerability, breach, compromise, buying intent or confirmed security need.
 
-Rules are used for parsing, normalization, signal extraction, scoring,
-filtering and ranking because these operations need to be deterministic,
-auditable and inexpensive.
+## Data boundary
+DATASET_PATH selects the runtime dataset. .zst files are streamed through Zstandard rather than requiring the compressed file to be committed.
 
-The LLM is used only for natural-language interpretation of already observed
-signals.
-
-The LLM does not determine the underlying score.
-
-## Cost Model
-
-The scoring pipeline operates without an LLM.
-
-LLM calls are made only when a user requests a prospect explanation. This
-keeps inference costs proportional to actual usage rather than processing
-the entire dataset with an LLM.
+## Observability
+LLM metadata is appended to logs/llm_calls.jsonl: model, prompt version, status, latency, token counts and estimated cost. Secrets and full model content are excluded.
 
 ## Trade-offs
-
-A deterministic scoring model is easier to audit but may miss contextual
-relationships that a language model could identify.
-
-An LLM can provide better explanations but introduces cost, latency and
-hallucination risk.
-
-The MVP therefore keeps the authoritative scoring logic outside the LLM.
+Deterministic scoring improves reproducibility but is a research-priority heuristic, not a claim about actual customer need. LLM summaries improve usability but add latency, cost and hallucination risk, so the evidence ledger and prompt contract constrain the model.

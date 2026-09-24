@@ -1,6 +1,6 @@
-﻿# Cyber Prospect Intelligence
+# Cyber Prospect Intelligence
 
-A lightweight sales-intelligence MVP for cybersecurity teams. It turns observable internet-facing infrastructure data into explainable prospect signals, deterministic scores, and a focused research workflow.
+A lightweight sales-intelligence MVP for cybersecurity teams. It turns observable internet-facing infrastructure data into explainable prospect signals, deterministic research-priority scores, and an evidence-grounded AI research workflow.
 
 ## Live Application
 
@@ -8,141 +8,59 @@ https://cyber-prospect-intelligence-expmmebpspmyeosfzviynr.streamlit.app/
 
 ## What It Does
 
-The MVP is designed around three salesperson-facing use cases:
+1. Prioritizes prospects using observable infrastructure signals.
+2. Filters and investigates prospects by country and research-priority score.
+3. Shows the deterministic evidence behind each score.
+4. Optionally generates an LLM-assisted research summary grounded only in the observed evidence ledger.
 
-1. Prospect prioritization using observable infrastructure signals.
-2. Prospect investigation by inspecting the evidence behind a score.
-3. Sales research assistance using observed signals without treating them as proof of a vulnerability or breach.
-
-Infrastructure observations are treated as research signals, not confirmed security findings.
-
-## Product Flow
-
-Raw infrastructure data
-    |
-    v
-Data normalization
-    |
-    v
-Signal extraction
-    |
-    v
-Deterministic prospect scoring
-    |
-    +--------------------+
-    |                    |
-    v                    v
-Prospect list      Prospect detail
-                         |
-                         v
-                AI research prompt
-
-## Scoring Approach
-
-The authoritative prospect score is rule-based and explainable.
-
-The scoring logic uses observable fields such as:
-
-- domain information
-- hostnames
-- organization identity
-- ASN
-- geographic information
-- operating system
-- detected technology or module
-- reverse DNS information
-- network transport
-
-The score is capped at 100.
-
-The scoring logic is implemented in Python and does not depend on an LLM. This makes the score deterministic, reproducible, and auditable.
+The score is a **research-priority heuristic**, not a claim of cybersecurity need, buying intent, vulnerability, compromise, or breach.
 
 ## Rule vs. LLM Split
 
-Deterministic operations remain in code.
+**Python owns:** parsing, normalization, signal extraction, scoring, filtering, ranking, and evaluation.
 
-Rules handle:
+**LLM owns only:** natural-language synthesis of the supplied evidence ledger, suggested research questions, and separation of observed facts from possible interpretation and missing information.
 
-- parsing
-- normalization
-- signal extraction
-- scoring
-- filtering
-- ranking
-- evaluation
+The LLM does not calculate the authoritative score and is instructed not to invent company facts or assert vulnerabilities, breaches, compromise, or confirmed buying intent.
 
-The versioned AI prompt defines a future natural-language interpretation layer for already-observed signals. The current MVP does not call an external LLM.
+## Dataset Support
 
-The AI layer should not invent infrastructure facts, calculate the authoritative score, or claim that an observation proves a vulnerability or breach.
+The application supports ordinary JSONL and Zstandard JSONL (.zst). Set DATASET_PATH to the dataset location. The source .zst file is intentionally not committed because large source datasets are excluded by .gitignore.
 
-See docs/architecture.md for the architecture and design trade-offs.
+## AI Research Assistant
+
+The app uses the OpenAI Responses API when OPENAI_API_KEY is configured. The default model is gpt-5-mini; OPENAI_MODEL can override it.
+
+If no API key is configured, the application continues to work as a deterministic prospecting tool and reports that AI research is not configured.
+
+The prompt is versioned at prompts/v2/prospect_summary.txt.
+
+## Observability and Cost Monitoring
+
+Each LLM call records a compact runtime trace in logs/llm_calls.jsonl containing UTC timestamp, model, prompt version, status, latency, input/output tokens, and estimated cost. Rates are configurable with LLM_INPUT_PRICE_PER_MILLION and LLM_OUTPUT_PRICE_PER_MILLION. These are estimates, not provider billing records. Full prompts, responses, and API keys are not logged.
+
 ## Evaluation
 
-The repository contains a labelled evaluation dataset and a deterministic evaluation harness.
+Run python evals/evaluate.py for the deterministic evaluation.
 
-The latest evaluation was run with:
-
-python evals/evaluate.py
-
-Result:
-
-eval_001: PASS (score=70)
-eval_002: PASS (score=0)
-
-2/2 evaluation cases passed.
-
-The saved result is available at:
-
-evals/results/latest.json
+Run python evals/evaluate_llm.py for the LLM harness. evals/datasets/llm_evals.json contains 20 labelled cases covering sparse, partial, mixed, and full evidence. The harness validates the dataset contract, score bounds, four required response sections, and forbidden-claim safety. Without OPENAI_API_KEY it performs contract validation only and does not claim model results.
 
 ## Repository Structure
 
 cyber-prospect-intelligence/
-|
-+-- app/
-|   +-- data.py
-|   +-- main.py
-|   +-- scoring.py
-|
-+-- data/
-|   +-- sample.jsonl
-|
-+-- docs/
-|   +-- planning.md
-|   +-- architecture.md
-|   +-- how-build.md
-|
-+-- evals/
-|   +-- datasets/
-|   |   +-- prospect_evals.json
-|   +-- results/
-|   |   +-- latest.json
-|   +-- evaluate.py
-|
-+-- prompts/
-|   +-- v1/
-|       +-- prospect_summary.txt
-|
-+-- skills/
-|   +-- SKILL.md
-|
-+-- README.md
-+-- app.py
-+-- inspect_firmable.py
-+-- requirements.txt
+|-- app/ (data.py, main.py, llm.py, observability.py, scoring.py)
+|-- data/ (sample.jsonl)
+|-- docs/ (planning.md, architecture.md, how-build.md)
+|-- evals/ (datasets, results, evaluate.py, evaluate_llm.py)
+|-- prompts/ (v1 and v2)
+|-- skills/ (SKILL.md)
+|-- README.md
+|-- requirements.txt
 
 ## Local Setup
 
-Create a virtual environment:
-
 python -m venv .venv
-
-Install dependencies:
-
 pip install -r requirements.txt
-
-Run the application:
-
 streamlit run app/main.py
 
-
+For AI, configure OPENAI_API_KEY and optionally OPENAI_MODEL. For Streamlit hosting, use the app Secrets settings; never commit keys.

@@ -1,0 +1,618 @@
+[
+  {
+    "id": "llm_001",
+    "description": "org-domain",
+    "input": {
+      "organization": "Example Corp",
+      "domains": [
+        "example.com"
+      ],
+      "hostnames": [
+        "vpn.example.com"
+      ],
+      "asn": "AS123",
+      "module": "https"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "domain",
+        "hostname",
+        "ASN",
+        "technology"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_002",
+    "description": "hostname-only",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [
+        "portal.example.net"
+      ],
+      "asn": null,
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "hostname"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_003",
+    "description": "asn-only",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [],
+      "asn": "AS64500",
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "ASN"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_004",
+    "description": "module-only",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": "http"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "technology"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_005",
+    "description": "org-only",
+    "input": {
+      "organization": "Acme Systems",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_006",
+    "description": "empty",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_007",
+    "description": "multiple-domains",
+    "input": {
+      "organization": "Northwind",
+      "domains": [
+        "northwind.example",
+        "mail.example"
+      ],
+      "hostnames": [],
+      "asn": "AS64501",
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "domain",
+        "ASN"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_008",
+    "description": "os",
+    "input": {
+      "organization": "Example Labs",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null,
+      "os": "Linux"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "operating system"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_009",
+    "description": "transport",
+    "input": {
+      "organization": "Example Labs",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null,
+      "transport": "tcp"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "transport"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_010",
+    "description": "location",
+    "input": {
+      "organization": "Example Labs",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null,
+      "country": "India",
+      "city": "Mangaluru"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "location"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_011",
+    "description": "full",
+    "input": {
+      "organization": "Acme Corp",
+      "domains": [
+        "acme.example"
+      ],
+      "hostnames": [
+        "vpn.acme.example"
+      ],
+      "asn": "AS64502",
+      "module": "https",
+      "os": "Linux",
+      "transport": "tcp",
+      "country": "India",
+      "city": "Bengaluru"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "domain",
+        "hostname",
+        "ASN",
+        "technology",
+        "operating system",
+        "transport",
+        "location"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_012",
+    "description": "timestamp",
+    "input": {
+      "organization": "Acme",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null,
+      "timestamp": "2026-09-21T10:00:00Z"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_013",
+    "description": "two-hostnames",
+    "input": {
+      "organization": "Beta",
+      "domains": [],
+      "hostnames": [
+        "vpn.beta.example",
+        "mail.beta.example"
+      ],
+      "asn": null,
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "hostname"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_014",
+    "description": "two-modules",
+    "input": {
+      "organization": "Gamma",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": "ssh"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "technology"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_015",
+    "description": "org-asn",
+    "input": {
+      "organization": "Delta",
+      "domains": [],
+      "hostnames": [],
+      "asn": "AS64503",
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "ASN"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_016",
+    "description": "domain-module",
+    "input": {
+      "organization": null,
+      "domains": [
+        "delta.example"
+      ],
+      "hostnames": [],
+      "asn": null,
+      "module": "https"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "domain",
+        "technology"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_017",
+    "description": "hostname-module",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [
+        "app.example"
+      ],
+      "asn": null,
+      "module": "http"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "hostname",
+        "technology"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_018",
+    "description": "org-location",
+    "input": {
+      "organization": "Epsilon",
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null,
+      "country": "US",
+      "city": "Austin"
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "location"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_019",
+    "description": "mixed-empty",
+    "input": {
+      "organization": "Zeta",
+      "domains": [],
+      "hostnames": [
+        "zeta.example"
+      ],
+      "asn": null,
+      "module": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [
+        "organization",
+        "hostname"
+      ],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  },
+  {
+    "id": "llm_020",
+    "description": "all-empty",
+    "input": {
+      "organization": null,
+      "domains": [],
+      "hostnames": [],
+      "asn": null,
+      "module": null,
+      "os": null,
+      "transport": null,
+      "country": null,
+      "city": null
+    },
+    "expected": {
+      "required_sections": [
+        "Observed signals",
+        "Possible interpretation",
+        "Missing information",
+        "Suggested research question"
+      ],
+      "evidence_keys": [],
+      "forbidden_claims": [
+        "vulnerability",
+        "breach",
+        "confirmed security need",
+        "buying intent"
+      ]
+    }
+  }
+]

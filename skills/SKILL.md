@@ -1,39 +1,23 @@
-﻿# Prospect Intelligence Skill
+# Cyber Prospect Intelligence Skill
 
 ## Purpose
-
-Convert raw internet-infrastructure observations into useful cybersecurity
-prospecting signals while keeping scoring deterministic and explainable.
+Turn raw internet-infrastructure observations into explainable cybersecurity prospect research signals without presenting them as confirmed security findings.
 
 ## Workflow
+1. Parse and normalize the supplied record.
+2. Extract observable fields and deterministic signals.
+3. Calculate the authoritative research-priority score with Python rules.
+4. Filter and rank prospects deterministically.
+5. Build an evidence ledger containing only observed data.
+6. Optionally use the LLM to summarize the evidence ledger.
+7. Clearly identify unknowns and the next research question.
 
-1. Parse the source record.
-2. Normalize organization, domain, hostname, location, ASN and technology fields.
-3. Extract observable infrastructure signals.
-4. Apply deterministic scoring rules.
-5. Produce an evidence-backed prospect profile.
-6. Use an LLM only to summarize the evidence for a salesperson.
-7. Never invent company facts, technologies, incidents, or business needs.
+## Rule vs. LLM
+**Python owns:** parsing, normalization, signal extraction, scoring, filtering, ranking, and evaluation.
 
-## Rule vs LLM
+**LLM owns:** natural-language synthesis of an already-built evidence ledger.
 
-Rules handle:
-- Data parsing
-- Normalization
-- Signal extraction
-- Scoring
-- Filtering
-- Ranking
+The LLM must not calculate the authoritative score, invent company facts, assert vulnerabilities or breaches, or infer confirmed buying intent.
 
-LLM handles:
-- Natural-language summaries
-- Sales research suggestions
-- Evidence explanation
-
-## Output Requirements
-
-Every AI-generated explanation must:
-- Refer only to observed data.
-- Clearly distinguish observations from hypotheses.
-- Avoid unsupported claims.
-- Identify missing information when evidence is insufficient.
+## Output contract
+Every AI summary should separate observations from hypotheses, identify missing information, and suggest a concrete research question.

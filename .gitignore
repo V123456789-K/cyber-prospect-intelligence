@@ -10,3 +10,6 @@ __pycache__/
 .venv/
 venv/
 .streamlit/secrets.toml
+
+# Runtime observability logs
+logs/
